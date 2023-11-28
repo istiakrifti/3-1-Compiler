@@ -1,15 +1,49 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-int main()
+
+class SymbolInfo
 {
-    int t;
-    cin>>t;
-    
-    while(t--)
+private:
+    string Name;
+    string Type;
+    SymbolInfo *next;
+public:
+
+    SymbolInfo()
     {
-        int n;
-        cin>>n;
+        next = 0;
     }
-    return 0;
-}
+
+    string getName()
+    {
+        return Name;
+    }
+
+    string getType()
+    {
+        return Type;
+    }
+
+    void setName(string Name)
+    {
+        this->Name = Name;
+    }
+
+    void setType(string Type)
+    {
+        this->Type = Type;
+    }
+
+    SymbolInfo* getNext()
+    {
+        return next;
+    }
+
+    void setNext(SymbolInfo *next)
+    {
+        this->next = next;
+    }
+
+    
+};
