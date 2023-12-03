@@ -1,5 +1,5 @@
 #include<bits/stdc++.h>
-#include "SymbolInfo.cpp"
+#include "2005101_SymbolInfo.cpp"
 using namespace std;
 
 ofstream out("out.txt");
@@ -14,14 +14,14 @@ private:
     int bucket;
 
     
-    unsigned long sdbmhash(string name)
+    unsigned long long int sdbmhash(string name)
     {
-        unsigned long hash = 0;
+        unsigned long long int hash = 0;
 
         int i=0;
         while (i<name.length())
         {
-            int x = name[i];
+            unsigned long long int x = name[i];
             hash = x + (hash << 6) + (hash << 16) - hash;
             i++;
         }
@@ -58,8 +58,8 @@ public:
             node->setType(type);
 
             hashTable[hashValue] = node;
-            cout<<"Inserted  at position <"<<hashValue+1<<","<<pos+1<<"> of ScopeTable# "<<id<<endl;
-            out<<"Inserted  at position <"<<hashValue+1<<","<<pos+1<<"> of ScopeTable# "<<id<<endl;
+            cout<<"Inserted  at position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
+            out<<"Inserted  at position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
             return true;
         }
         else
@@ -81,17 +81,18 @@ public:
 
             if(presentSymbol->getName()==name)
             {
+                
                 cout<<"'"<<name<<"' already exists in the current ScopeTable# "<<id<<endl;
                 out<<"'"<<name<<"' already exists in the current ScopeTable# "<<id<<endl;
                 return false;
             }
-
+            pos++;
             SymbolInfo *node = new SymbolInfo();
             node->setName(name);
             node->setType(type);
             presentSymbol->setNext(node);
-            cout<<"Inserted  at position <"<<hashValue+1<<","<<pos+1<<"> of ScopeTable# "<<id<<endl;
-            out<<"Inserted  at position <"<<hashValue+1<<","<<pos+1<<"> of ScopeTable# "<<id<<endl;
+            cout<<"Inserted  at position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
+            out<<"Inserted  at position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
             return true;
         }
         
@@ -110,10 +111,11 @@ public:
                 pos++;
                 if(presentSymbol->getName()==name)
                 {
-                    cout<<"'"<<name<<"' found at position <"<<hashValue+1<<","<<pos<<"> of ScopeTable# "<<id<<endl;
-                    out<<"'"<<name<<"' found at position <"<<hashValue+1<<","<<pos<<"> of ScopeTable# "<<id<<endl;
+                    cout<<"'"<<name<<"' found at position <"<<hashValue+1<<", "<<pos<<"> of ScopeTable# "<<id<<endl;
+                    out<<"'"<<name<<"' found at position <"<<hashValue+1<<", "<<pos<<"> of ScopeTable# "<<id<<endl;
                     return presentSymbol;
                 }
+
                 presentSymbol = presentSymbol->getNext();
             }
             
@@ -138,8 +140,8 @@ public:
                 SymbolInfo *temp = presentSymbol;
                 hashTable[hashValue] = presentSymbol->getNext();
                 delete temp;
-                cout<<"Deleted "<<name<<" from position <"<<hashValue+1<<","<<pos+1<<"> of ScopeTable# "<<id<<endl;
-                out<<"Deleted "<<name<<" from position <"<<hashValue+1<<","<<pos+1<<"> of ScopeTable# "<<id<<endl;
+                cout<<"Deleted '"<<name<<"' from position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
+                out<<"Deleted '"<<name<<"' from position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
                 return true;
             }
 
@@ -152,8 +154,8 @@ public:
                 {
                     prev->setNext(presentSymbol->getNext());
                     delete presentSymbol;
-                    cout<<"Deleted "<<name<<" from position <"<<hashValue+1<<","<<pos+1<<"> of ScopeTable# "<<id<<endl;
-                    out<<"Deleted "<<name<<" from position <"<<hashValue+1<<","<<pos+1<<"> of ScopeTable# "<<id<<endl;
+                    cout<<"Deleted "<<name<<" from position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
+                    out<<"Deleted "<<name<<" from position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
                     return true;
                 }
                 prev = presentSymbol;
@@ -166,12 +168,14 @@ public:
 
     void Print()
     {
-        cout<<"        ScopeTable# "<<id<<endl;
-        out<<"        ScopeTable# "<<id<<endl;
+        cout<<"\t";
+        out<<"\t";
+        cout<<"ScopeTable# "<<id<<endl;
+        out<<"ScopeTable# "<<id<<endl;
         for (int i = 0; i < bucket; i++)
         {
-            cout<<"        ";
-            out<<"        ";
+            cout<<"\t";
+            out<<"\t";
             SymbolInfo *temp=hashTable[i];
             cout<<i+1;
             out<<i+1;
@@ -219,6 +223,15 @@ public:
 
     ~ScopeTable()
     {
-        
+        for(int i=0;i<bucket;i++)
+        {
+            SymbolInfo *temp = hashTable[i];
+            while(temp!=0)
+            {
+                delete hashTable[i];
+                temp = temp->getNext();
+            }
+        }
+        delete[] hashTable;
     }
 };

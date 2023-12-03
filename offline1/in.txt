@@ -1,5 +1,5 @@
 7
-I FOO FUNCTION
+I foo FUNCTION
 I i VAR
 L i
 L i j
@@ -16,7 +16,7 @@ P A
 I >= RELOP
 P C
 I <= RELOP
-I FOO FUNCTION
+I foo FUNCTION
 D ==
 D 23
 D
@@ -26,11 +26,11 @@ S
 I x VAR
 I y VAR
 P A
-L FOO
+L foo
 E
 I num VAR
 S
-I TRUE BOOL
+I true BOOL
 I a
 P A
 E

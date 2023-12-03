@@ -1,5 +1,5 @@
 #include<bits/stdc++.h>
-#include "ScopeTable.cpp"
+#include "2005101_ScopeTable.cpp"
 using namespace std;
 
 class SymbolTable
@@ -8,26 +8,7 @@ private:
     int bucket;
     int globalId;
     ScopeTable *currentScope;
-
-    void DeleteExistingTables()
-    {
-        ScopeTable *temp=currentScope;
-        while(temp!=0)
-        {
-
-            ScopeTable *node = temp;
-            cout<<"        ScopeTable# "<<temp->getId()<<" deleted"<<endl;
-            out<<"        ScopeTable# "<<temp->getId()<<" deleted"<<endl;
-
-            temp=temp->getParent();
-            delete node;
-                // currentScope = node;
-            
-            
-        }
-
-        currentScope=0;
-    }
+    
 public:
 
     SymbolTable(int n)
@@ -37,8 +18,10 @@ public:
         currentScope->setParent(0);
         globalId = 1;
         currentScope->setId(to_string(globalId));
-        cout<<"        ScopeTable# "<<currentScope->getId()<<" created"<<endl;
-        out<<"        ScopeTable# "<<currentScope->getId()<<" created"<<endl;
+        cout<<"\t";
+        out<<"\t";
+        cout<<"ScopeTable# "<<currentScope->getId()<<" created"<<endl;
+        out<<"ScopeTable# "<<currentScope->getId()<<" created"<<endl;
     }
 
     void EnterScope()
@@ -61,32 +44,30 @@ public:
         out<<"ScopeTable# "<<currentScope->getId()<<" created"<<endl;
     }
 
-    void ExitScope(int flag=0)
+    void ExitScope()
     {   
-        if(flag==0)
-        {
-            if(currentScope!=0 && currentScope->getParent()!=0)
-            {
-                ScopeTable *node = currentScope->getParent();
-                cout<<"        ScopeTable# "<<currentScope->getId()<<" deleted"<<endl;
-                out<<"        ScopeTable# "<<currentScope->getId()<<" deleted"<<endl;
-                delete currentScope;
-                currentScope = node;
-                return;
-            }
-            if(currentScope->getParent()==0)
-            {
-                cout<<"        ScopeTable# "<<currentScope->getId()<<" cannot be deleted"<<endl;
-                out<<"        ScopeTable# "<<currentScope->getId()<<" cannot be deleted"<<endl;
-
-            }
-        }
         
-        if(flag==1)
+        if(currentScope!=0 && currentScope->getParent()!=0)
         {
-            DeleteExistingTables();
+            ScopeTable *node = currentScope->getParent();
+            cout<<"\t";
+            out<<"\t";
+            cout<<"ScopeTable# "<<currentScope->getId()<<" deleted"<<endl;
+            out<<"ScopeTable# "<<currentScope->getId()<<" deleted"<<endl;
+            delete currentScope;
+            currentScope = node;
             return;
         }
+        if(currentScope->getParent()==0)
+        {
+            
+            cout<<"\t";
+            out<<"\t";
+            cout<<"ScopeTable# "<<currentScope->getId()<<" cannot be deleted"<<endl;
+            out<<"ScopeTable# "<<currentScope->getId()<<" cannot be deleted"<<endl;
+
+        }
+        
     }
 
     bool Insert(string name,string type)
@@ -137,6 +118,7 @@ public:
 
             if(node==0)
             {
+                
                 ScopeTable *tempScope=currentScope->getParent();
                 while(tempScope!=0)
                 {
@@ -146,6 +128,7 @@ public:
                         flag=1;
                         return node1;
                     }
+                    tempScope = tempScope->getParent();
                 }
             }
             if(flag==0)
@@ -176,6 +159,27 @@ public:
         }
     }
     
+    ~SymbolTable()
+    {
+        ScopeTable *temp=currentScope;
+        while(temp!=0)
+        {
+
+            ScopeTable *node = temp;
+            cout<<"\t";
+            out<<"\t";
+            cout<<"ScopeTable# "<<temp->getId()<<" deleted"<<endl;
+            out<<"ScopeTable# "<<temp->getId()<<" deleted"<<endl;
+
+            temp=temp->getParent();
+            delete node;
+                // currentScope = node;
+            
+            
+        }
+
+        currentScope=0;
+    }
 };
 
 
