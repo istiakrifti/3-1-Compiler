@@ -2,7 +2,6 @@
 #include "2005101_SymbolInfo.cpp"
 using namespace std;
 
-ofstream out("output.txt");
 
 class ScopeTable
 {
@@ -58,8 +57,8 @@ public:
             node->setType(type);
 
             hashTable[hashValue] = node;
-            cout<<"Inserted  at position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
-            out<<"Inserted  at position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
+            // cout<<"Inserted  at position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
+            // out<<"Inserted  at position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
             return true;
         }
         else
@@ -68,8 +67,8 @@ public:
             {
                 if(presentSymbol->getName()==name)
                 {
-                    cout<<"'"<<name<<"' already exists in the current ScopeTable# "<<id<<endl;
-                    out<<"'"<<name<<"' already exists in the current ScopeTable# "<<id<<endl;
+                    // cout<<"'"<<name<<"' already exists in the current ScopeTable# "<<id<<endl;
+                    // out<<"'"<<name<<"' already exists in the current ScopeTable# "<<id<<endl;
                     return false;
                 }
                 else
@@ -82,8 +81,8 @@ public:
             if(presentSymbol->getName()==name)
             {
                 
-                cout<<"'"<<name<<"' already exists in the current ScopeTable# "<<id<<endl;
-                out<<"'"<<name<<"' already exists in the current ScopeTable# "<<id<<endl;
+                // cout<<"'"<<name<<"' already exists in the current ScopeTable# "<<id<<endl;
+                // out<<"'"<<name<<"' already exists in the current ScopeTable# "<<id<<endl;
                 return false;
             }
             pos++;
@@ -91,8 +90,8 @@ public:
             node->setName(name);
             node->setType(type);
             presentSymbol->setNext(node);
-            cout<<"Inserted  at position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
-            out<<"Inserted  at position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
+            // cout<<"Inserted  at position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
+            // out<<"Inserted  at position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
             return true;
         }
         
@@ -111,8 +110,8 @@ public:
                 pos++;
                 if(presentSymbol->getName()==name)
                 {
-                    cout<<"'"<<name<<"' found at position <"<<hashValue+1<<", "<<pos<<"> of ScopeTable# "<<id<<endl;
-                    out<<"'"<<name<<"' found at position <"<<hashValue+1<<", "<<pos<<"> of ScopeTable# "<<id<<endl;
+                    // cout<<"'"<<name<<"' found at position <"<<hashValue+1<<", "<<pos<<"> of ScopeTable# "<<id<<endl;
+                    // out<<"'"<<name<<"' found at position <"<<hashValue+1<<", "<<pos<<"> of ScopeTable# "<<id<<endl;
                     return presentSymbol;
                 }
 
@@ -140,8 +139,8 @@ public:
                 SymbolInfo *temp = presentSymbol;
                 hashTable[hashValue] = presentSymbol->getNext();
                 delete temp;
-                cout<<"Deleted '"<<name<<"' from position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
-                out<<"Deleted '"<<name<<"' from position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
+                // cout<<"Deleted '"<<name<<"' from position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
+                // out<<"Deleted '"<<name<<"' from position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
                 return true;
             }
 
@@ -154,8 +153,8 @@ public:
                 {
                     prev->setNext(presentSymbol->getNext());
                     delete presentSymbol;
-                    cout<<"Deleted "<<name<<" from position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
-                    out<<"Deleted "<<name<<" from position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
+                    // cout<<"Deleted "<<name<<" from position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
+                    // out<<"Deleted "<<name<<" from position <"<<hashValue+1<<", "<<pos+1<<"> of ScopeTable# "<<id<<endl;
                     return true;
                 }
                 prev = presentSymbol;
@@ -166,32 +165,40 @@ public:
         return false;
     }
 
-    void Print()
+    string Print()
     {
-        cout<<"\t";
-        out<<"\t";
-        cout<<"ScopeTable# "<<id<<endl;
-        out<<"ScopeTable# "<<id<<endl;
+        string str;
+        str += "\t";
+        str += "ScopeTable# "+id+"\n";
+        // cout<<"\t";
+        // out<<"\t";
+        // cout<<"ScopeTable# "<<id<<endl;
+        // out<<"ScopeTable# "<<id<<endl;
         for (int i = 0; i < bucket; i++)
         {
-            cout<<"\t";
-            out<<"\t";
+            // cout<<"\t";
+            str += "\t";
+            // out<<"\t";
             SymbolInfo *temp=hashTable[i];
-            cout<<i+1;
-            out<<i+1;
+            // cout<<i+1;
+            str += to_string(i+1);
+            // out<<i+1;
             while(temp!=0){
-                
-                cout<<" --> ";
-                out<<" --> ";
+                str += " --> ";
+                // cout<<" --> ";
+                // out<<" --> ";
                 // if(presentScope->getName())
-                cout<<"("<<temp->getName()<<","<<temp->getType()<<")";
-                out<<"("<<temp->getName()<<","<<temp->getType()<<")";
+                // cout<<"("<<temp->getName()<<","<<temp->getType()<<")";
+                // out<<"("<<temp->getName()<<","<<temp->getType()<<")";
+                str += "("+temp->getName()+","+temp->getType()+")";
                 // if(temp->getNext()!=0) cout<<" --> ";
                 temp=temp->getNext();
             }
-            cout<<endl;
-            out<<endl;
+            // cout<<endl;
+            str += "\n";
+            // out<<endl;
         } 
+        return str;
     }
     ScopeTable* getParent()
     {
@@ -223,14 +230,14 @@ public:
 
     ~ScopeTable()
     {
-        for(int i=0;i<bucket;i++)
+        for (int i=0; i<bucket; i++)
         {
-            SymbolInfo *temp = hashTable[i];
-            while(temp!=0)
-            {
-                delete hashTable[i];
-                temp = temp->getNext();
-            }
+        SymbolInfo* temp;
+            while(hashTable[i]!=0) {
+            temp=hashTable[i]->getNext();
+            delete hashTable[i];
+            hashTable[i]=temp;
+        }
         }
         delete[] hashTable;
     }

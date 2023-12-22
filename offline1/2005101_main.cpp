@@ -4,7 +4,7 @@ using namespace std;
 
 int main()
 {
-    ifstream MyFile("in.txt");
+    ifstream MyFile("input.txt");
 
     string line;
     getline(MyFile,line);
